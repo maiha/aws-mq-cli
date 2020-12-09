@@ -2,6 +2,15 @@
 
 The Command Line Interface for Amazon MQ.
 
+
+## Installation
+* x86_64 static binary: https://github.com/maiha/aws-mq-cli/releases
+
+```console
+$ wget https://github.com/maiha/aws-mq-cli/releases/latest/download/aws-mq-cli
+```
+
+
 ## API
 
 ```console
