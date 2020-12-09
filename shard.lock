@@ -1,0 +1,30 @@
+version: 2.0
+shards:
+  amq-protocol:
+    git: https://github.com/cloudamqp/amq-protocol.cr.git
+    version: 0.3.21
+
+  amqp-client:
+    git: https://github.com/cloudamqp/amqp-client.cr.git
+    version: 0.6.1
+
+  cmds:
+    git: https://github.com/maiha/cmds.cr.git
+    version: 0.3.7
+
+  pretty:
+    git: https://github.com/maiha/pretty.cr.git
+    version: 0.9.11
+
+  shard:
+    git: https://github.com/maiha/shard.cr.git
+    version: 0.3.1
+
+  ulid:
+    git: https://github.com/maiha/ulid.git
+    version: 0.1.0+git.commit.f7c82172f872588acf57b657fdddb46e576999a4
+
+  var:
+    git: https://github.com/maiha/var.cr.git
+    version: 1.2.0
+

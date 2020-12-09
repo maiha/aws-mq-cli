@@ -1,0 +1,29 @@
+name: aws-mq-cli
+version: 0.2.0
+
+authors:
+  - maiha <maiha@wota.jp>
+
+targets:
+  aws-mq-cli:
+    main: src/main.cr
+
+  aws-mq-cli-dev:
+    main: src/main.cr
+
+dependencies:
+  amqp-client:
+    github: cloudamqp/amqp-client.cr
+  ulid:
+    github: maiha/ulid
+    branch: crystal-v0.35.1
+  var:
+    github: maiha/var.cr
+  pretty:
+    github: maiha/pretty.cr
+  cmds:
+    github: maiha/cmds.cr
+  shard:
+    github: maiha/shard.cr
+
+license: MIT
