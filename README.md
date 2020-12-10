@@ -74,3 +74,29 @@ aws-mq-cli stress consume <qps>
 aws-mq-cli tutorials hello_world
 aws-mq-cli tutorials work_queues
 ```
+
+## Development
+
+```console
+$ make          # generates 'bin/aws-mq-cli-dev' (fast to compile)
+$ make release  # generates 'bin/aws-mq-cli'     (optimized binary)
+```
+
+## CI
+
+```console
+$ make ci
+```
+
+## Contributing
+
+1. Fork it (<https://github.com/maiha/aws-mq-cli.cr/fork>)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
+
+## Contributors
+
+- [maiha](https://github.com/maiha) - creator and maintainer
+

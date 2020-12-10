@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -eu
+
+printf "Ping RabbitMQ... "
+until aws-mq-cli ping; do
+  sleep 2
+  printf "Ping RabbitMQ... "
+done

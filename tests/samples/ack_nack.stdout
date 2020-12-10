@@ -1,0 +1,6 @@
+ [x] Published messages containing a number or a string.
+ [*] Consuming with ack for numbers. (To exit press CTRL+C)
+ [x] Received [100] (ack)
+ [x] Received [foo] (nack:requeue)
+ [x] Received [200] (ack)
+ [x] Received [foo] (nack:requeue)

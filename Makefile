@@ -1,3 +1,7 @@
+export GNUMAKEFLAGS=--no-print-directory
+SHELL = /bin/bash
+.SHELLFLAGS = -o pipefail -c
+
 DOCKER ?= docker run -t -u "`id -u`:`id -g`" -v "$(PWD):/v" -w /v --rm crystallang/crystal:0.35.1-alpine
 
 all: aws-mq-cli-dev
@@ -14,8 +18,38 @@ aws-mq-cli:
 aws-mq-cli-dev:
 	$(DOCKER) shards build --link-flags "-static" "$@"
 
+lib:
+	$(DOCKER) shards update -v
+
+# experimental: build musl
+aws-mq-cli-musl: lib
+	$(DOCKER) crystal build -o bin/$@ -static --cross-compile --target x86_64-linux-musl src/main.cr
+
 clean:
 	rm -rf bin lib .crystal .shards
+
+######################################################################
+### Testing
+
+test: test-main
+
+ci: aws-mq-cli-dev
+	make test-setup
+	make test-wait-for-rabbitmq
+	make test-main
+	make test-teardown
+
+test-setup:
+	docker-compose up -d
+
+test-wait-for-rabbitmq:
+	docker-compose exec test ./tests/wait-for-rabbitmq
+
+test-teardown:
+	docker-compose down -v
+
+test-main:
+	docker-compose exec test ./tests/test tests
 
 ######################################################################
 ### Versioning
