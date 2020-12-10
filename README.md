@@ -27,6 +27,9 @@ aws-mq-cli exchange delete  <name>
 # publish
 aws-mq-cli exchange publish <exchange> <message>
 
+# samples
+aws-mq-cli samples ack_nack
+
 # stress test
 aws-mq-cli stress publish <qps> [<payload size(KB)>]
 aws-mq-cli stress consume <qps>
