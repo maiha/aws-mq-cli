@@ -31,7 +31,7 @@ aws-mq-cli exchange publish <exchange> <message>
 aws-mq-cli stress publish <qps> [<payload size(KB)>]
 aws-mq-cli stress consume <qps>
 
-# tutorial (RabbitMQ)
-aws-mq-cli tutorial hello_world
-aws-mq-cli tutorial work_queues
+# tutorials (RabbitMQ)
+aws-mq-cli tutorials hello_world
+aws-mq-cli tutorials work_queues
 ```

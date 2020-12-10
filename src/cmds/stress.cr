@@ -1,3 +1,5 @@
+# Stress test features
+# * [qps] This provides a rough QPS by processing the number of QPS at once and then waiting until one second has elapsed.
 Cmds.command "stress" do
   include Core
 
@@ -18,15 +20,19 @@ Cmds.command "stress" do
 
       while true
         started_at = Pretty::Time.now
+        # processing at once
         qps.times do |i|
           total_count += 1
           payload = ("message %010d" % [total_count]).ljust(kb * 1024)
           exchange.publish(payload, routing_key: queue.name, mandatory: true, props: props)
         end
+
+        # reporting
         past_sec = (Pretty::Time.now - started_at).total_seconds
         this_qps = "%.1f" % (qps / past_sec) rescue "N/A"
         puts "[*] #{Pretty::Time.now}] Published #{qps} messages. (total: #{total_count}) [#{this_qps} qps]"
 
+        # waiting until one second has elapsed
         rest_sec = 1 - past_sec
         sleep rest_sec if rest_sec > 0
       end
@@ -45,11 +51,13 @@ Cmds.command "stress" do
 
       started_at = Pretty::Time.now
       queue.subscribe(block: true, no_ack: false) do |message|
+        # processing
         text = message.text
         message.ack
         rest_count -= 1
         total_count += 1
 
+        # waiting until one second has elapsed if we reached to the number of qps
         if rest_count <= 0
           past_sec = (Pretty::Time.now - started_at).total_seconds
           this_qps = "%.1f" % (qps / past_sec) rescue "N/A"
