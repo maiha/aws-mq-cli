@@ -62,4 +62,43 @@ Cmds.command "samples" do
       channel.queue_delete(queue_name)
     end
   end
+
+  task "priority_queue" do
+    queue_name = "samples_priority_queue"
+    case scenario_type
+    when .run?
+      channel.queue_delete(queue_name)
+
+      queue    = channel.queue(name: queue_name, durable: true, args: AMQ::Protocol::Table.new({"x-max-priority" => 10}))
+      exchange = channel.default_exchange
+
+      # Publish messages with priorities.
+      exchange.publish("1", routing_key: queue_name, props: AMQP::Client::Properties.new(priority: 1))
+      exchange.publish("2", routing_key: queue_name, props: AMQP::Client::Properties.new(priority: 2))
+      puts " [x] Published messages with priorities."
+      sleep 1                   # Wait a while until all messages are queued.
+
+      # Consume
+      expected_orders = ["2", "1"]
+      puts " [*] Consuming... (To exit press CTRL+C)"
+      queue.subscribe(block: false, no_ack: false) do |message|
+        got = message.text
+        message.ack
+
+        expected = expected_orders.shift?
+        if got == expected
+          puts " [x] Received [#{got}] (expected)"
+        else
+          puts " [x] Received [#{got}] (ERROR: Expected [#{expected}])"
+        end
+        if expected_orders.empty?
+          sleep 0.1
+          raise ConsumeFinished.new("done")
+        end
+      end
+      
+    when .clean?
+      channel.queue_delete(queue_name)
+    end
+  end
 end
